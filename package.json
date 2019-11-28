@@ -4,14 +4,21 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "jasmine": "node -r esm ./node_modules/jasmine/bin/jasmine",
+    "magic": "node -r esm ./src/magic-square/index.js",
     "day01": "node -r esm ./src/day-01/index.js",
     "day02": "node -r esm ./src/day-02/index.js",
     "day03": "node --max_old_space_size=8192 -r esm ./src/day-03/index.js",
     "day04": "node -r esm ./src/day-04/index.js",
-    "day05": "node -r esm ./src/day-05/index.js"
+    "day05": "node -r esm ./src/day-05/index.js",
+    "day06": "node -r esm ./src/day-06/index.js",
+    "test": "yarn jasmine"
   },
   "dependencies": {
     "esm": "^3.2.25",
+    "jasmine": "^3.5.0",
+    "jasmine-es6": "^0.4.3",
+    "jasmine-node": "^3.0.0",
     "moment": "^2.24.0"
   }
 }
