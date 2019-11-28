@@ -1,0 +1,17 @@
+{
+  "name": "adventofcode-2018",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "day01": "node -r esm ./src/day-01/index.js",
+    "day02": "node -r esm ./src/day-02/index.js",
+    "day03": "node --max_old_space_size=8192 -r esm ./src/day-03/index.js",
+    "day04": "node -r esm ./src/day-04/index.js",
+    "day05": "node -r esm ./src/day-05/index.js"
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "moment": "^2.24.0"
+  }
+}
