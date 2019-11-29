@@ -11,7 +11,7 @@
     "day03": "node --max_old_space_size=8192 -r esm ./src/day-03/index.js",
     "day04": "node -r esm ./src/day-04/index.js",
     "day05": "node -r esm ./src/day-05/index.js",
-    "day06": "node -r esm ./src/day-06/index.js",
+    "day06": "ts-node -r esm ./src/day-06/index.ts",
     "test": "yarn jasmine"
   },
   "dependencies": {
@@ -19,6 +19,8 @@
     "jasmine": "^3.5.0",
     "jasmine-es6": "^0.4.3",
     "jasmine-node": "^3.0.0",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.2"
   }
 }
