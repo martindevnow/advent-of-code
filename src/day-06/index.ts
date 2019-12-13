@@ -159,8 +159,19 @@ const bloomMatrix = (
     });
   };
 
+  const updateCanBloom = seed => ({
+    ...seed,
+    canBloom: seed.canBloom && !!seed.grownThisCycle
+  });
+
   _data.forEach(bloom);
   _matrix = growSeeds(_matrix);
+  _data = _data.map(updateCanBloom);
+
+  if (_data.some(seed => seed.canBloom)) {
+    _data = _data.map(increaseBloomLevel);
+    return bloomMatrix(_matrix, _data);
+  }
 
   return [_matrix, _data];
 };
@@ -171,190 +182,6 @@ const plantSeeds = (point: ISeed) => {
 };
 
 data.forEach(plantSeeds);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-// console.log(matrixToString(matrix));
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
-[matrix, data] = bloomMatrix(matrix, data);
-
-data = data.map(increaseBloomLevel);
 [matrix, data] = bloomMatrix(matrix, data);
 
 console.log(matrixToString(matrix));

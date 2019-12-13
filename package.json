@@ -12,6 +12,10 @@
     "day04": "node -r esm ./src/day-04/index.js",
     "day05": "node -r esm ./src/day-05/index.js",
     "day06": "ts-node -r esm ./src/day-06/index.ts",
+    "2019-01": "node -r esm ./src/2019/day-01/index.js",
+    "2019-02": "node -r esm ./src/2019/day-02/index.js",
+    "2019-03": "ts-node -r esm ./src/2019/day-03/index.ts",
+    "2019-04": "node -r esm ./src/2019/day-04/index.js",
     "test": "yarn jasmine"
   },
   "dependencies": {
