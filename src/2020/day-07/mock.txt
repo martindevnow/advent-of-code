@@ -1,0 +1,6 @@
+shiny gold bags contain 2 dim silver bags.
+dim silver bags contain 2 posh fuchsia bags.
+posh fuchsia bags contain 3 light indigo bags, 3 dark coral bags.
+dark coral bags contain 3 striped olive bags.
+striped olive bags contain no other bags.
+light indigo bags contain no other bags.

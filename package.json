@@ -17,7 +17,8 @@
     "2019-03": "ts-node -r esm ./src/2019/day-03/index.ts",
     "2019-04": "node -r esm ./src/2019/day-04/index.js",
     "2019-05": "node -r esm ./src/2019/day-05/index.js",
-    "test": "yarn jasmine"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "esm": "^3.2.25",
@@ -28,5 +29,11 @@
     "moment": "^2.24.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.10.4",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.4"
   }
 }
