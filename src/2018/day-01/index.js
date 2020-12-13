@@ -1,17 +1,17 @@
-import * as utils from '../utils';
+import * as utils from "../../utils";
 // const data = utils.readFile('../day-01/data.txt').split(/\r?\n/);
 
 const convertstrToInt = (str) => {
-  if (str.toString().charAt(0) === '-') {
-    return parseInt(str.substring(1)) * (-1);
+  if (str.toString().charAt(0) === "-") {
+    return parseInt(str.substring(1)) * -1;
   }
   return parseInt(str.substring(1));
-}
+};
 
 const findFinalFrequency = (acc, curr) => {
   const num = convertstrToInt(curr);
   return acc + num;
-}
+};
 
 const findFirstRepeatingFrequency = (acc, curr) => {
   // acc = { done: false, freq: #, prev: [123, 40, -4, 10 ...] }
@@ -37,16 +37,15 @@ const findFirstRepeatingFrequency = (acc, curr) => {
   return acc;
 };
 
-const data = utils.readFile('../day-01/data.txt').split(/\r?\n/);
+const data = utils.readFile("../day-01/data.txt").split(/\r?\n/);
 
 const answerPart1 = data.reduce(findFinalFrequency, 0);
 console.log(answerPart1); // 400
 
-
 let answerPart2 = data.reduce(findFirstRepeatingFrequency, {
   done: false,
   freq: 0,
-  prev: []
+  prev: [],
 });
 
 while (answerPart2.done === false) {
