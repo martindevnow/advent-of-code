@@ -17,10 +17,13 @@
     "2019-03": "ts-node -r esm ./src/2019/day-03/index.ts",
     "2019-04": "node -r esm ./src/2019/day-04/index.js",
     "2019-05": "node -r esm ./src/2019/day-05/index.js",
+    "20:12": "ts-node ./src/2020/day-12/index.ts",
+    "20:13": "ts-node ./src/2020/day-13/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@types/jest": "^26.0.19",
     "esm": "^3.2.25",
     "inquirer": "^7.0.0",
     "jasmine": "^3.5.0",
