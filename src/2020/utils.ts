@@ -8,3 +8,6 @@ export const readFile = (file) => {
 
 export const mod = (modulo: number) => (num: number) =>
   ((num % modulo) + modulo) % modulo;
+
+export const logIt = (...args: any[]) =>
+  console.log(JSON.stringify(args, null, 2));

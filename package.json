@@ -21,6 +21,7 @@
     "20:13": "ts-node ./src/2020/day-13/index.ts",
     "20:14": "ts-node ./src/2020/day-14/index.ts",
     "20:15": "ts-node ./src/2020/day-15/index.ts",
+    "20:16": "ts-node ./src/2020/day-16/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
