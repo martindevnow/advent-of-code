@@ -11,3 +11,6 @@ export const mod = (modulo: number) => (num: number) =>
 
 export const logIt = (...args: any[]) =>
   console.log(JSON.stringify(args, null, 2));
+
+export const log = (...args: any[]) =>
+  console.log(JSON.stringify(args, null, 2));
