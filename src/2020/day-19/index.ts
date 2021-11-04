@@ -1,6 +1,6 @@
 import * as utils from "../utils";
 const console = require("console");
-const dataStr = utils.readFile("day-19/mock.txt");
+const dataStr = utils.readFile("day-19/data.txt");
 
 interface Rule {
   id: number;
@@ -39,51 +39,56 @@ export const validateInputAgainstPattern = (
   inputString: string,
   ruleMap: { [id: number]: Rule }
 ) => {
-  console.log({ ruleNumber, inputString });
+  return (
+    inputString.length ===
+    countMatchingInputAgainstPattern(ruleNumber, inputString, ruleMap)
+  );
+};
+
+export const countMatchingInputAgainstPattern = (
+  ruleNumber: number,
+  inputString: string,
+  ruleMap: { [id: number]: Rule }
+): number => {
+  // console.log({ ruleNumber, inputString });
   const rule = ruleMap[ruleNumber];
   if (!rule) {
     throw new Error(`No rule found for ruleNumber ${ruleNumber} in ruleMap`);
   }
   if (rule.leaf && rule.leafValue) {
-    return stringStartsWith(inputString, rule.leafValue);
+    return stringStartsWith(inputString, rule.leafValue) ? 1 : 0;
   }
   if (rule.options.length) {
-    return rule.options.some((nextRuleNumbers) => {
-      console.log({ nextRuleNumbers });
+    const result = rule.options.map((nextRuleNumbers) => {
+      // console.log({ nextRuleNumbers });
       const finalString = nextRuleNumbers.reduce(
-        (acc: string | boolean, nextRuleNum: number) => {
-          // Ex. rule: "0: 4 5 1" where `1: "a"; 2: "b";  
-
-
-
-          if (acc === false || acc === true) {
+        (acc: string | number, nextRuleNum: number) => {
+          // Ex. rule: "0: 4 5 1" where `1: "a"; 2: "b";
+          if (Number.isInteger(acc as number)) {
             return acc;
           }
           // This can be a large pattern (branch), not just one matching string (leaf)
-          const nextCharValid = validateInputAgainstPattern(
+          const charactersValid = countMatchingInputAgainstPattern(
             nextRuleNum,
-            acc,
+            acc as string,
             ruleMap
           );
-          // const countMatches = countMatchingCharacters(
-          //   nextRuleNum,
-          //   acc,
-          //   ruleMap
-          // );
-          if (!nextCharValid) {
-            return false;
+          // console.log({ charactersValid });
+          if (!charactersValid) {
+            return 0;
           }
-          console.log("Pass");
-          return acc.slice(1);
+
+          return (acc as string).slice(charactersValid);
         },
         inputString
       );
-      console.log({ finalString });
+      // console.log({ finalString });
       if (finalString === "" || !!finalString) {
-        return true;
+        return inputString.length - (finalString as string).length;
       }
-      return false;
+      return 0;
     });
+    return result.reduce((acc, curr) => Math.max(acc, curr), 0);
   }
   throw new Error(`Not sure what to do with this.. ruleNumber: ${ruleNumber}`);
 };
@@ -94,67 +99,17 @@ interface OptionsAcc {
   matchedCharacters: number;
 }
 
-const countMatchingCharacters = (
-  ruleNumber: number,
-  inputString: string,
-  ruleMap: { [id: number]: Rule }
-): number => {
-  console.log({ ruleNumber, inputString });
-  const rule = ruleMap[ruleNumber];
-  if (!rule) {
-    throw new Error(`No rule found for ruleNumber ${ruleNumber} in ruleMap`);
-    return 0;
-  }
-  if (rule.leaf && rule.leafValue) {
-    return stringStartsWith(inputString, rule.leafValue) ? rule.leafValue.length : 0;
-  }
-  if (rule.options.length) {
-    const result = rule.options.map(
-      (ruleSet) => {
-        console.log('Running RuleSet')
-        console.log({ ruleSet });
-        const remainingString = ruleSet.reduce(
-          (acc: string | boolean, nextRuleNum: number) => {
-            if (acc === true || acc === false) {
-              return acc;
-            }
-            // This can be a large pattern, not just one matching string
-            const numOfCharsValid = countMatchingCharacters(
-              nextRuleNum,
-              acc,
-              ruleMap
-            );
-            if (!numOfCharsValid) {
-              return false;
-            }
-            console.log("Pass");
-            return acc.slice(numOfCharsValid);
-          },
-          inputString
-        );
-
-        console.log({ remainingString });
-        if (remainingString === "" || !!remainingString) {
-          return inputString.length;
-        }
-        return (remainingString && inputString.length - remainingString.length) || 0;
-      }
-    );
-    return result.
-  }
-  throw new Error(`Not sure what to do with this.. ruleNumber: ${ruleNumber}`);
-};
 const rules: RuleMap = rulesRaw
   .map(transformRuleString)
   .reduce(
     (acc: { [currId: number]: Rule }, curr) => ({ ...acc, [curr.id]: curr }),
     {}
   );
-// const input = codesRaw.filter((input) =>
-//   validateInputAgainstPattern(0, input, rules)
-// ).length;
+const input = codesRaw.filter((input) =>
+  validateInputAgainstPattern(0, input, rules)
+).length;
 
-// console.log("Day 19 :: Part 1");
-// console.log(input);
+console.log("Day 19 :: Part 1");
+console.log(input);
 
 // console.log(rules);
