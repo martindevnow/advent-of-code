@@ -28,6 +28,7 @@
     "21:02": "ts-node ./src/2021/day-02/index.ts",
     "21:03": "ts-node ./src/2021/day-03/index.ts",
     "21:04": "ts-node ./src/2021/day-04/index.ts",
+    "21:05": "ts-node ./src/2021/day-05/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
