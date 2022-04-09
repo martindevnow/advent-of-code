@@ -39,7 +39,7 @@
     "jasmine": "^3.5.0",
     "jasmine-es6": "^0.4.3",
     "jasmine-node": "^3.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.2"
   },
