@@ -1,5 +1,7 @@
 import * as utils from "../utils";
 
+const map = new Array();
+
 const data = utils
   .readFile("day-05/data.txt") // read input data
   .split(/\r?\n/)
