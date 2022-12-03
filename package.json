@@ -24,6 +24,7 @@
     "20:16": "ts-node ./src/2020/day-16/index.ts",
     "20:17": "ts-node ./src/2020/day-17/index.ts",
     "20:18": "ts-node ./src/2020/day-18/index.ts",
+    "20:21": "ts-node ./src/2020/day-21/index.ts",
     "21:01": "ts-node ./src/2021/day-01/index.ts",
     "21:02": "ts-node ./src/2021/day-02/index.ts",
     "21:03": "ts-node ./src/2021/day-03/index.ts",
@@ -31,6 +32,7 @@
     "21:05": "ts-node ./src/2021/day-05/index.ts",
     "22:01": "ts-node ./src/2022/day-01/index.ts",
     "22:02": "ts-node ./src/2022/day-02/index.ts",
+    "22:03": "ts-node ./src/2022/day-03/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
