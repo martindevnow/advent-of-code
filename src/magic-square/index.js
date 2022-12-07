@@ -1,7 +1,7 @@
-const getMatrix = dim =>
-  new Array(dim).fill('').map(_ => new Array(dim).fill(0));
+const getMatrix = (dim) =>
+  new Array(dim).fill("").map((_) => new Array(dim).fill(0));
 
-const buildMagicSquare = dim => {
+const buildMagicSquare = (dim) => {
   const matrix = getMatrix(dim);
   let currX = Math.floor(dim / 2); // 5 / 2 => 2.5 => 2;
   let currY = 0;
@@ -27,3 +27,4 @@ const buildMagicSquare = dim => {
 };
 
 const magicSquare = buildMagicSquare(5);
+console.log(magicSquare);
