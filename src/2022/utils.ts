@@ -21,3 +21,13 @@ export const chunk = <T>(arr: T[], size: number): Array<Array<T>> => {
   }, [] as Array<Array<T>>);
   return result;
 };
+
+export const chunkStr = (size: number) => (input: string) => {
+  let output: Array<string> = [];
+
+  while (input.length) {
+    output.push(input.slice(0, size));
+    input = input.slice(size, input.length);
+  }
+  return output;
+};

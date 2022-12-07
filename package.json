@@ -33,6 +33,9 @@
     "22:01": "ts-node ./src/2022/day-01/index.ts",
     "22:02": "ts-node ./src/2022/day-02/index.ts",
     "22:03": "ts-node ./src/2022/day-03/index.ts",
+    "22:04": "ts-node ./src/2022/day-04/index.ts",
+    "22:05": "ts-node ./src/2022/day-05/index.ts",
+    "22:06": "ts-node ./src/2022/day-06/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
