@@ -77,22 +77,28 @@
     "22:23": "ts-node ./src/2022/day-23/index.ts",
     "22:24": "ts-node ./src/2022/day-24/index.ts",
     "22:25": "ts-node ./src/2022/day-25/index.ts",
+    "buildops": "ts-node ./src/buildops/interview.ts",
+    "bgg": "ts-node ./src/bgg.ts",
+    "thingiverse": "ts-node ./src/thingiverse.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
     "@types/jest": "^26.0.19",
+    "dom-parser": "^1.1.5",
     "esm": "^3.2.25",
     "inquirer": "^7.0.0",
     "jasmine": "^3.5.0",
     "jasmine-es6": "^0.4.3",
     "jasmine-node": "^3.0.0",
+    "jsdom": "^24.0.0",
     "moment": "^2.24.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
+    "@types/jsdom": "^21.1.6",
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0",
     "ts-jest": "^26.1.4"
