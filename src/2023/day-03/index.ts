@@ -114,16 +114,25 @@ console.log(`Day 3, Part 1: ${finalPartNum}`);
 // 529673 is too low
 // 530495 was correct
 
+// part 2
+
+// iterate through the gears and track the
+/**
+ * Gear {
+ *   parts: [<id1>, <id2>]
+ * }
+ */
+
 // search the grid for symbols around
 
 // if there is a symbol next to it, then it is a part number
 
 // sum all part numbers
-const gearMap = new Map<string, number>();
+const gearMap = new Map<string, Array<number>>();
 data.forEach((line, lineId) => {
   line.forEach((cell, rowId) => {
     if (cell === "*") {
-      gearMap.set(`line${lineId}row${rowId}`, 0);
+      gearMap.set(`line${lineId}row${rowId}`, []);
     }
   });
 });
@@ -140,8 +149,10 @@ parts.forEach(({ strNum, startPos }) => {
   cellsToCheck.forEach(([lineId, rowId]) => {
     const currentGearId = `line${lineId}row${rowId}`;
     const currentGear = gearMap.get(currentGearId);
-    if (currentGear !== undefined) {
-      gearMap.set(currentGearId, currentGear + 1);
+    if (!currentGear?.length) {
+      gearMap.set(currentGearId, [+strNum]);
+    } else {
+      gearMap.set(currentGearId, [...currentGear, +strNum]);
     }
   });
 });

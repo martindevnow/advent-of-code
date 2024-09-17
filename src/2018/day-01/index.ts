@@ -1,5 +1,4 @@
-import * as utils from "../../utils";
-// const data = utils.readFile('../day-01/data.txt').split(/\r?\n/);
+import * as utils from "../utils";
 
 const convertstrToInt = (str) => {
   if (str.toString().charAt(0) === "-") {
@@ -37,7 +36,7 @@ const findFirstRepeatingFrequency = (acc, curr) => {
   return acc;
 };
 
-const data = utils.readFile("../day-01/data.txt").split(/\r?\n/);
+const data = utils.readFile("day-01/data.txt").split(/\r?\n/);
 
 const answerPart1 = data.reduce(findFinalFrequency, 0);
 console.log(answerPart1); // 400

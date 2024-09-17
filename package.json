@@ -4,20 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "18": "ts-node ./src/2018/main.ts",
     "23": "ts-node ./src/2023/main.ts",
-    "2018": "echo 2018",
-    "2019": "echo 2019",
     "2020": "echo 2020",
     "2021": "echo 2021",
     "2022": "echo 2022",
     "jasmine": "node -r esm ./node_modules/jasmine/bin/jasmine",
     "magic": "node -r esm ./src/magic-square/index.js",
-    "day01": "node -r esm ./src/day-01/index.js",
-    "day02": "node -r esm ./src/day-02/index.js",
-    "day03": "node --max_old_space_size=8192 -r esm ./src/day-03/index.js",
-    "day04": "node -r esm ./src/day-04/index.js",
-    "day05": "node -r esm ./src/day-05/index.js",
-    "day06": "ts-node -r esm ./src/day-06/index.ts",
     "2019-01": "node -r esm ./src/2019/day-01/index.js",
     "2019-02": "node -r esm ./src/2019/day-02/index.js",
     "2019-03": "ts-node -r esm ./src/2019/day-03/index.ts",
@@ -85,7 +78,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@types/jest": "^26.0.19",
+    "@types/jest": "^29.0.0",
     "dom-parser": "^1.1.5",
     "esm": "^3.2.25",
     "inquirer": "^7.0.0",
@@ -100,8 +93,8 @@
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
     "@types/jsdom": "^21.1.6",
-    "babel-jest": "^26.1.0",
-    "jest": "^26.1.0",
-    "ts-jest": "^26.1.4"
+    "babel-jest": "^29.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.2.5"
   }
 }
