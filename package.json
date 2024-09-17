@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "23": "ts-node ./src/2023/main.ts",
     "2018": "echo 2018",
     "2019": "echo 2019",
     "2020": "echo 2020",
@@ -93,8 +94,8 @@
     "jasmine-node": "^3.0.0",
     "jsdom": "^24.0.0",
     "moment": "^2.24.0",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.7.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",
