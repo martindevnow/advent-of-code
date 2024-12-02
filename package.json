@@ -9,6 +9,7 @@
     "2020": "echo 2020",
     "2021": "echo 2021",
     "2022": "echo 2022",
+    "2024": "ruby src/2024/main.rb",
     "jasmine": "node -r esm ./node_modules/jasmine/bin/jasmine",
     "magic": "node -r esm ./src/magic-square/index.js",
     "2019-01": "node -r esm ./src/2019/day-01/index.js",
