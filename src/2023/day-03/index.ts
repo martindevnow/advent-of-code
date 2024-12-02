@@ -130,9 +130,9 @@ console.log(`Day 3, Part 1: ${finalPartNum}`);
 // sum all part numbers
 const gearMap = new Map<string, Array<number>>();
 data.forEach((line, lineId) => {
-  line.forEach((cell, rowId) => {
+  line.forEach((cell, colId) => {
     if (cell === "*") {
-      gearMap.set(`line${lineId}row${rowId}`, []);
+      gearMap.set(`line${lineId}col${colId}`, []);
     }
   });
 });
@@ -146,8 +146,12 @@ parts.forEach(({ strNum, startPos }) => {
     data[0].length,
     data.length
   );
-  cellsToCheck.forEach(([lineId, rowId]) => {
-    const currentGearId = `line${lineId}row${rowId}`;
+  cellsToCheck.forEach(([lineId, colId]) => {
+    if (data[lineId][colId] !== "*") {
+      return;
+    }
+
+    const currentGearId = `line${lineId}col${colId}`;
     const currentGear = gearMap.get(currentGearId);
     if (!currentGear?.length) {
       gearMap.set(currentGearId, [+strNum]);
@@ -156,3 +160,20 @@ parts.forEach(({ strNum, startPos }) => {
     }
   });
 });
+
+utils.logIt(gearMap.size);
+
+// iterate through gears, filter out any with array length != 2, then multiply gears and sum them
+let totalGearRatio = 0;
+
+gearMap.forEach((parts) => {
+  if (parts.length !== 2) {
+    return;
+  }
+
+  totalGearRatio += parts[0] * parts[1];
+});
+
+console.log(`Day 3, Part 2: ${totalGearRatio}`);
+
+// Ans: 80253814
