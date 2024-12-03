@@ -11,6 +11,7 @@
     "2022": "ts-node ./src/2022/main.ts",
     "2023": "ts-node ./src/2023/main.ts",
     "ruby:2023": "ruby src/2023/main.rb",
+    "2024": "ts-node ./src/2024/main.ts",
     "ruby:2024": "ruby src/2024/main.rb",
     "jasmine": "node -r esm ./node_modules/jasmine/bin/jasmine",
     "magic": "node -r esm ./src/magic-square/index.js",
