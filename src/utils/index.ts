@@ -56,3 +56,10 @@ export const getYXOfStringInString = (
   const coords: [number, number] = [y, x];
   return coords;
 };
+
+export type Coords2D = { y: number; x: number };
+
+export const toAscii = (str: string) =>
+  str.length === 1
+    ? [str.charCodeAt(0)]
+    : str.split("").map((c) => c.charCodeAt(0));
