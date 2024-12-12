@@ -43,3 +43,32 @@ export const isNumeric = (str: string) => {
     !isNaN(parseFloat(str))
   ); // ...and ensure strings of whitespace fail
 };
+
+export const getNeighbors = (
+  point: [number, number]
+): Array<[number, number]> => {
+  const [x, y] = point;
+  const ns: Array<[number, number]> = [];
+  for (const coords of [
+    [0, -1],
+    [0, 1],
+    [1, 0],
+    [-1, 0],
+  ]) {
+    let x1 = x + coords[0];
+    let y1 = y + coords[1];
+    ns.push([x1, y1]);
+  }
+  return ns;
+};
+
+export const isInBounds = (
+  coord: [number, number],
+  grid: Array<Array<unknown>>
+) => {
+  const [x, y] = coord;
+  if (x < 0 || y < 0 || x >= grid.length || y >= grid[0].length) {
+    return false;
+  }
+  return true;
+};
