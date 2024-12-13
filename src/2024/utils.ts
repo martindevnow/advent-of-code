@@ -72,3 +72,11 @@ export const isInBounds = (
   }
   return true;
 };
+
+export const isInt = (value: number) => {
+  return (
+    !isNaN(value) &&
+    parseInt(`${value}`, 10) == value &&
+    !isNaN(parseInt(`${value}`, 10))
+  );
+};
