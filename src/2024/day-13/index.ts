@@ -25,18 +25,18 @@ const MAX_PRESSES = 100;
 let fewest_tokens_for_all_prizes;
 
 interface Game {
-  aX: bigint;
-  aY: bigint;
-  bX: bigint;
-  bY: bigint;
-  pX: bigint;
-  pY: bigint;
+  aX: number;
+  aY: number;
+  bX: number;
+  bY: number;
+  pX: number;
+  pY: number;
 }
 
 interface SolvedGame extends Game {
-  a: bigint;
-  b: bigint;
-  tokens: bigint;
+  a: number;
+  b: number;
+  tokens: number;
 }
 
 const gameRegex =
@@ -50,14 +50,14 @@ const games: Array<Game> = data
     if (!match) return;
     const [, aX, aY, bX, bY, pX, pY] = Array.from(match).map(Number);
     return {
-      aX: BigInt(aX),
-      aY: BigInt(aY),
-      bX: BigInt(bX),
-      bY: BigInt(bY),
-      // pX: BigInt(pX),
-      // pY: BigInt(pY),
-      pX: BigInt(pX) + 10000000000000n,
-      pY: BigInt(pY) + 10000000000000n,
+      aX: Number(aX),
+      aY: Number(aY),
+      bX: Number(bX),
+      bY: Number(bY),
+      // pX: Number(pX),
+      // pY: Number(pY),
+      pX: Number(pX) + 10000000000000,
+      pY: Number(pY) + 10000000000000,
     };
   })
   .filter(Boolean) as Array<Game>;
@@ -72,15 +72,15 @@ const findMinPresses = (game: Game) => {
   // a = (pY - b* bY)/aY
   // ((pX - b* bX)/aX) = ((pY - b* bY)/aY)
   //
-  const b: bigint = (aX * pY - aY * pX) / (aX * bY - aY * bX);
-  const remainderB: bigint = (aX * pY - aY * pX) % (aX * bY - aY * bX);
-  if (remainderB !== 0n) return null;
+  const b: number = (aX * pY - aY * pX) / (aX * bY - aY * bX);
+  const remainderB: number = (aX * pY - aY * pX) % (aX * bY - aY * bX);
+  if (remainderB !== 0) return null;
 
-  const a: bigint = (pX - b * bX) / aX;
-  const remainderA: bigint = (pX - b * bX) % aX;
-  if (remainderA !== 0n) return null;
+  const a: number = (pX - b * bX) / aX;
+  const remainderA: number = (pX - b * bX) % aX;
+  if (remainderA !== 0) return null;
 
-  const tokens = a * BigInt(COST.A) + b * BigInt(COST.B);
+  const tokens = a * Number(COST.A) + b * Number(COST.B);
   return { ...game, a, b, tokens };
 };
 
@@ -89,7 +89,7 @@ const total = solvedGames.reduce((acc, curr) => {
   // console.log({ tokens: curr!.tokens });
   if (curr!.tokens <= 0) return acc;
   return acc + curr!.tokens;
-}, 0n);
+}, 0);
 
 console.log(`Part 1: ${total}`); // 35997
 
