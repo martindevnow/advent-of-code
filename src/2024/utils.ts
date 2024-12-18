@@ -80,3 +80,42 @@ export const isInt = (value: number) => {
     !isNaN(parseInt(`${value}`, 10))
   );
 };
+
+export const getXYFromArray = (
+  grid: Array<Array<string>>,
+  searchChar: string
+) => {
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
+      if (grid[y][x] === searchChar) return [y, x];
+    }
+  }
+  return [-1, -1];
+};
+export const getXYFromStrGrid = (gridStr: string, searchChar: string) => {
+  const grid = gridStr.split("\n").map((line) => line.split(""));
+
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
+      if (grid[y][x] === searchChar) return [y, x];
+    }
+  }
+  return [-1, -1];
+
+  // const loc = gridStr.indexOf(searchChar);
+  // let x = Math.floor(loc / grid[0].length); // line
+  // let y = loc % (grid[0].length + 1); // col
+  // return [y, x];
+};
+
+export const drawGrid = (grid: Array<Array<string | number>>) => {
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
+      process.stdout.write(`${grid[y][x]}`);
+    }
+    console.log("");
+  }
+};
+
+export const getGrid = (str: string) =>
+  str.split("\n").map((line) => line.split(""));
