@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "2015": "ts-node ./src/2015/main.ts",
+    "2016": "ts-node ./src/2016/main.ts",
+    "2017": "ts-node ./src/2017/main.ts",
     "2018": "ts-node ./src/2018/main.ts",
     "2019": "ts-node ./src/2019/main.ts",
     "2020": "ts-node ./src/2020/main.ts",
