@@ -10,9 +10,10 @@ const testData = `029A
 
 const data = realData;
 
-console.log(`::: Part 1 :::`);
+const lines = data.split("\n");
 
-const keyLocations: Record<string, [number, number]> = {
+// Keypad definitions
+const numericKeypad: Record<string, [number, number]> = {
   "7": [0, 0],
   "8": [0, 1],
   "9": [0, 2],
@@ -26,7 +27,7 @@ const keyLocations: Record<string, [number, number]> = {
   A: [3, 2],
 };
 
-const moveLocations: Record<string, [number, number]> = {
+const directionKeypad: Record<string, [number, number]> = {
   "^": [0, 1],
   A: [0, 2],
   "<": [1, 0],
@@ -34,52 +35,168 @@ const moveLocations: Record<string, [number, number]> = {
   ">": [1, 2],
 };
 
-// Memoize costs of movements between keys
-const dp: Record<string, number> = {};
-
-const getDistance = (
-  pos1: [number, number],
-  pos2: [number, number]
-): number => {
-  return Math.abs(pos1[0] - pos2[0]) + Math.abs(pos1[1] - pos2[1]);
+const dd: Record<string, [number, number]> = {
+  ">": [0, 1],
+  v: [1, 0],
+  "<": [0, -1],
+  "^": [-1, 0],
 };
 
-const calculateMinCost = (
-  sequence: string,
-  currentPos: [number, number]
-): number => {
-  if (sequence.length === 0) return 0; // No cost if no keys left
+// Function to get combinations of moves
+function* getCombos(
+  ca: string,
+  a: number,
+  cb: string,
+  b: number
+): Generator<string> {
+  const total = a + b;
+  const indices = Array.from({ length: total }, (_, i) => i);
 
-  const key = `${currentPos}-${sequence}`;
-  if (dp[key] !== undefined) return dp[key];
+  const combinations = (arr: number[], r: number): number[][] => {
+    if (r === 0) return [[]];
+    if (arr.length === 0) return [];
+    const [head, ...tail] = arr;
+    return [
+      ...combinations(tail, r - 1).map((combo) => [head, ...combo]),
+      ...combinations(tail, r),
+    ];
+  };
 
-  const nextKey = sequence[0];
-  const nextPos = keyLocations[nextKey];
+  for (const idxs of combinations(indices, a)) {
+    const res = Array(total).fill(cb);
+    for (const i of idxs) {
+      res[i] = ca;
+    }
+    yield res.join("");
+  }
+}
 
-  // Movement cost + button press cost (always +1 for pressing)
-  const moveCost = getDistance(currentPos, nextPos) + 1;
+// console.log(Array.from(getCombos("v", 2, ">", 2)));
+// console.log(Array.from(getCombos("v", 2, ">", 0)));
 
-  // Recursively calculate for the rest of the sequence
-  const remainingCost = calculateMinCost(sequence.slice(1), nextPos);
+// Cache utility
+const cache = new Map<string, any>();
 
-  dp[key] = moveCost + remainingCost;
-  return dp[key];
-};
+function cached(fn: (...args: any[]) => any): (...args: any[]) => any {
+  return (...args: any[]) => {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) return cache.get(key);
+    const result = fn(...args);
+    cache.set(key, result);
+    return result;
+  };
+}
 
-const results = data.split("\n").map((line) => {
-  const cleanedLine = line.trim();
-  const initialPos: [number, number] = [3, 2]; // Starting at "A"
-  const cost = calculateMinCost(cleanedLine, initialPos);
+// Function to generate possible ways
+const generateWays = cached(
+  (a: string, b: string, isDirectionKeypad: boolean): string[] => {
+    const keypad = isDirectionKeypad ? directionKeypad : numericKeypad;
 
-  const num = +cleanedLine.replaceAll("A", ""); // Numeric value of the sequence
-  console.log(`Cost: ${cost}, Multiplier: ${num}`);
-  return cost * num;
-});
+    const curLoc = keypad[a];
+    const nextLoc = keypad[b];
+    const di = nextLoc[0] - curLoc[0];
+    const dj = nextLoc[1] - curLoc[1];
 
-const sum = results.reduce((acc, curr) => acc + curr, 0);
+    const moves: [string, number][] = [];
+    if (di > 0) moves.push(["v", di]);
+    else moves.push(["^", -di]);
+    if (dj > 0) moves.push([">", dj]);
+    else moves.push(["<", -dj]);
 
-console.log(`Part 1: ${sum}`);
+    const rawCombos = Array.from(
+      new Set(
+        [...getCombos(moves[0][0], moves[0][1], moves[1][0], moves[1][1])].map(
+          (x) => x + "A"
+        )
+      )
+    );
 
-// Placeholder for Part 2
+    const combos: string[] = [];
+    for (const combo of rawCombos) {
+      let [ci, cj] = curLoc;
+      let valid = true;
+
+      for (const step of combo.slice(0, -1)) {
+        const [di, dj] = dd[step];
+        ci += di;
+        cj += dj;
+        if (!Object.values(keypad).some(([ki, kj]) => ki === ci && kj === cj)) {
+          valid = false;
+          break;
+        }
+      }
+
+      if (valid) combos.push(combo);
+    }
+
+    return combos;
+  }
+);
+
+// Function to calculate the cost of moving between keys
+const getCost = cached(
+  (
+    a: string,
+    b: string,
+    isDirectionKeypad: boolean,
+    depth: number = 0
+  ): number => {
+    if (depth === 0) {
+      return Math.min(
+        ...generateWays(a, b, isDirectionKeypad).map((x) => x.length)
+      );
+    }
+
+    const ways = generateWays(a, b, isDirectionKeypad);
+    let bestCost = Number.MAX_SAFE_INTEGER;
+
+    for (const seq of ways) {
+      const extendedSeq = "A" + seq;
+      let cost = 0;
+
+      for (let i = 0; i < extendedSeq.length - 1; i++) {
+        const from = extendedSeq[i];
+        const to = extendedSeq[i + 1];
+        cost += getCost(from, to, true, depth - 1);
+      }
+
+      bestCost = Math.min(bestCost, cost);
+    }
+
+    return bestCost;
+  }
+);
+
+// Function to calculate the cost of a code
+function getCodeCost(code: string, depth: number): number {
+  const extendedCode = "A" + code;
+  let cost = 0;
+
+  for (let i = 0; i < extendedCode.length - 1; i++) {
+    const from = extendedCode[i];
+    const to = extendedCode[i + 1];
+    cost += getCost(from, to, false, depth);
+  }
+
+  return cost;
+}
+
+console.log(`::: Part 1 :::`);
+
+// Main computation
+let part1 = 0;
+for (const line of lines) {
+  part1 += getCodeCost(line, 2) * parseInt(line.slice(0, -1), 10);
+}
+
+console.log(`Part 1: ${part1}`);
+
 console.log(`::: Part 2 :::`);
-console.log(`Part 2: TBD`);
+
+// Main computation
+let part2 = 0;
+for (const line of lines) {
+  part2 += getCodeCost(line, 25) * parseInt(line.slice(0, -1), 10);
+}
+
+console.log(`Part 2: ${part2}`);
