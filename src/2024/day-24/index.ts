@@ -1,151 +1,220 @@
 import * as utils from "../utils";
 
-const realData: string = utils.readFileAbsolute(__dirname + "/data.txt");
+export default function day24() {
+  const input = utils.readFileAbsolute(__dirname + "/data.txt");
 
-const testData = `x00: 1
-x01: 0
-x02: 1
-x03: 1
-x04: 0
-y00: 1
-y01: 1
-y02: 1
-y03: 1
-y04: 1
+  let [inputsS, ops] = input.split(/(?:\r?\n){2}/);
 
-ntg XOR fgs -> mjb
-y02 OR x01 -> tnw
-kwq OR kpj -> z05
-x00 OR x03 -> fst
-tgd XOR rvg -> z01
-vdt OR tnw -> bfw
-bfw AND frj -> z10
-ffh OR nrd -> bqk
-y00 AND y03 -> djm
-y03 OR y00 -> psh
-bqk OR frj -> z08
-tnw OR fst -> frj
-gnj AND tgd -> z11
-bfw XOR mjb -> z00
-x03 OR x00 -> vdt
-gnj AND wpb -> z02
-x04 AND y00 -> kjc
-djm OR pbm -> qhw
-nrd AND vdt -> hwm
-kjc AND fst -> rvg
-y04 OR y02 -> fgs
-y01 AND x02 -> pbm
-ntg OR kjc -> kwq
-psh XOR fgs -> tgd
-qhw XOR tgd -> z09
-pbm OR djm -> kpj
-x03 XOR y03 -> ffh
-x00 XOR y04 -> ntg
-bfw OR bqk -> z06
-nrd XOR fgs -> wpb
-frj XOR qhw -> z04
-bqk OR frj -> z07
-y03 OR x01 -> nrd
-hwm AND bqk -> z03
-tgd XOR rvg -> z12
-tnw OR pbm -> gnj`;
+  let adjList = {};
 
-const data = realData;
+  for (let line of ops.split(/\r?\n/)) {
+    let [v, output] = line.split(" -> ");
 
-console.log(`::: Part 1 :::`);
+    let [_, v0, op, v1] = v.match(/(\w+) (\w+) (\w+)/)!;
 
-type Gate = {
-  a: string;
-  b: string;
-  operator: string;
-  name: string;
-  value: boolean | null;
-};
-const [inputsStr, logicStr] = data.split("\n\n");
-const inputs = inputsStr
-  .split("\n")
-  .map((line) => {
-    const [wire, value] = line.split(": ");
-    return { wire, value: !!Number(value) };
-  })
-  .reduce((acc, curr) => {
-    return { ...acc, [curr.wire]: curr.value };
-  }, {} as { [key: string]: boolean });
+    let operation = [v0, op, v1];
 
-console.log({ inputs });
-
-const logic = logicStr
-  .split("\n")
-  // .slice(0, 4)
-  .map((line) => {
-    const exp = /(\w+) (\w+) (\w+) -> (\w+)/;
-
-    const [, a, operator, b, name] = line.match(exp)!;
-    return { a, b, operator, name, value: null };
-  })
-  .reduce((acc, curr) => {
-    return { ...acc, [curr.name]: curr };
-  }, {} as { [key: string]: Gate });
-
-console.log(`Part 1: ${{}}`);
-
-const AND = (a: boolean, b: boolean) => a && b;
-const OR = (a: boolean, b: boolean) => a || b;
-const XOR = (a: boolean, b: boolean) => a !== b;
-
-// find all z prefix
-
-const results = Object.entries(logic)
-  .filter(([key]) => {
-    return key.charAt(0) === "z";
-  })
-  .sort(([keyA], [keyB]) => (keyA < keyB ? 1 : -1));
-
-console.log(results);
-
-const getResultForGate = (gate: Gate) => {
-  const { a, b, operator, name, value } = gate;
-  if (value !== null) return value;
-
-  if (inputs[name] !== undefined) return inputs[name];
-
-  let aGate = logic[a];
-  let aValue;
-  if (!aGate) {
-    aValue = inputs[a];
-    if (aValue === undefined) throw Error(`no gate or input for ${a}`);
-  } else {
-    aValue = getResultForGate(aGate);
+    adjList[output] = operation;
   }
 
-  let bGate = logic[b];
-  let bValue;
-  if (!aGate) {
-    bValue = inputs[b];
-    if (bValue === undefined) throw Error(`no gate or input for ${b}`);
-  } else {
-    bValue = getResultForGate(bGate);
+  let [definitelyBroken, maybeBrokenMap] = getBreakages(false);
+  let maybeBrokenArr = [...maybeBrokenMap.keys()];
+  let definitelyBrokenIndexes = [...definitelyBroken].map((x) =>
+    maybeBrokenArr.findIndex((z) => z === x)
+  );
+
+  // console.log(...maybeBrokenMap.entries())
+  console.log(definitelyBroken);
+  console.log(maybeBrokenMap);
+
+  let result = dfs(maybeBrokenArr, new Set());
+  return result.sort().join(",");
+
+  function dfs(maybeBroken, used) {
+    if (used.size === 8) {
+      for (let idx of definitelyBrokenIndexes) {
+        if (!used.has(idx)) {
+          return false;
+        }
+      }
+
+      let [_, maybeBroken2] = getBreakages(true);
+      if (!maybeBroken2.size) {
+        return [...used].map((x) => maybeBroken[x]);
+      }
+      return false;
+    }
+    for (let i = 0; i < maybeBroken.length; ++i) {
+      if (
+        !definitelyBrokenIndexes.includes(i) &&
+        used.size < definitelyBrokenIndexes.length
+      ) {
+        continue;
+      }
+
+      if (used.has(i)) {
+        continue;
+      }
+      used.add(i);
+      for (let j = i + 1; j < maybeBroken.length; ++j) {
+        if (used.has(j)) {
+          continue;
+        }
+        used.add(j);
+
+        let v1 = maybeBroken[i];
+        let v2 = maybeBroken[j];
+        [adjList[v1], adjList[v2]] = [adjList[v2], adjList[v1]];
+
+        let ret = dfs(maybeBroken, used);
+        if (ret) {
+          return ret;
+        }
+
+        [adjList[v1], adjList[v2]] = [adjList[v2], adjList[v1]];
+
+        used.delete(j);
+      }
+      used.delete(i);
+    }
   }
 
-  switch (operator) {
-    case "OR":
-      return OR(aValue, bValue);
-    case "AND":
-      return AND(aValue, bValue);
-    case "XOR":
-      return XOR(aValue, bValue);
+  function getBreakages(bailEarly) {
+    let definitelyBroken = new Set();
+    let maybeBrokenMap = new Map();
+    function maybeBroken(...nodes) {
+      if (nodes.length < 2) {
+        definitelyBroken.add(nodes[0]);
+      }
+      for (let node of nodes) {
+        if (node) {
+          maybeBrokenMap.set(node, (maybeBrokenMap.get(node) ?? 0) + 1);
+        }
+      }
+
+      return false;
+    }
+    for (let i = 0; i < 45; ++i) {
+      if (maybeBrokenMap.size && bailEarly) {
+        return [definitelyBroken, maybeBrokenMap];
+      }
+
+      let v = `z${i.toString().padStart(2, "0")}`;
+
+      derive(v, i);
+    }
+
+    return [definitelyBroken, maybeBrokenMap];
+
+    function derive(v0, num) {
+      //expected: XOR(XOR(n), NEXT)
+      if (num < 1) {
+        if (!isXorFor(v0, num)) {
+          return maybeBroken(v0);
+        }
+        return true;
+      }
+
+      let next = adjList[v0];
+      if (next[1] !== "XOR") {
+        // console.log(`broke -1 -->${v0}<--:..... (${i})`);
+        return maybeBroken(v0);
+      }
+
+      let [v1, op, v2] = next;
+
+      if (!adjList[v1] || !adjList[v2]) {
+        return maybeBroken(v0);
+      }
+      if (adjList[v2][1] === "XOR") {
+        [v1, v2] = [v2, v1];
+      }
+      if (adjList[v1][1] !== "XOR") {
+        return maybeBroken(v0, v1, v2); //TODO not sure which?!
+      }
+
+      if (!isXorFor(v1, num)) {
+        return maybeBroken(v0, v1, v2);
+      }
+
+      //XOR OK... NOW FOR CARRY
+      return deriveCarry(v2, num - 1);
+    }
+    function deriveCarry(v0, num) {
+      let [v1, op, v2] = adjList[v0];
+
+      if (num === 0) {
+        if (isAndFor(v0, num)) {
+          return true;
+        }
+        return maybeBroken(v0);
+      }
+      if (op !== "OR") {
+        return maybeBroken(v0);
+      }
+
+      if (isAndFor(v2, num)) {
+        [v2, v1] = [v1, v2];
+      }
+      if (!isAndFor(v1, num)) {
+        return maybeBroken(v0, v1, v2);
+      }
+
+      return deriveCarry2(v2, num);
+    }
+    function isAndFor(v0, num) {
+      if (!adjList[v0]) {
+        return maybeBroken(v0);
+      }
+      let [v1, op, v2] = adjList[v0];
+      if (op !== "AND" || !isForNum(v0, num)) {
+        return false;
+      }
+
+      return true;
+    }
+    function isXorFor(v0, num) {
+      if (!adjList[v0]) {
+        return maybeBroken(v0);
+      }
+      let [v1, op, v2] = adjList[v0];
+      if (op !== "XOR" || !isForNum(v0, num)) {
+        return false;
+      }
+
+      return true;
+    }
+    function isForNum(v0, num) {
+      let [v1, op, v2] = adjList[v0];
+
+      let digit1 = String.fromCharCode(
+        (Math.floor(num / 10) % 10) + "0".charCodeAt(0)
+      );
+      let digit2 = String.fromCharCode((num % 10) + "0".charCodeAt(0));
+      return !(
+        v1[1] !== digit1 ||
+        v1[2] !== digit2 ||
+        v2[1] !== digit1 ||
+        v2[2] !== digit2
+      );
+    }
+    function deriveCarry2(v0, num) {
+      let [v1, op, v2] = adjList[v0];
+      if (op !== "AND") {
+        return maybeBroken(v0);
+      }
+
+      if (isXorFor(v2, num)) {
+        [v1, v2] = [v2, v1];
+      }
+      if (!isXorFor(v1, num)) {
+        return maybeBroken(v0, v1, v2);
+      }
+      return deriveCarry(v2, num - 1);
+    }
   }
-  throw Error(`no operator func for ${operator}`);
-};
+}
 
-const final: string = results
-  .map(([name, gate]) => {
-    return getResultForGate(gate);
-  })
-  .reduce((acc, curr) => `${acc}${Number(curr)}`, "");
-
-console.log({ res: parseInt(final, 2) });
-
-console.log(`::: Part 2 :::`);
-
-console.log(`Part 2: ${{}}`);
+console.time();
+console.log(day24());
+console.timeEnd();
