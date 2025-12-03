@@ -123,3 +123,6 @@ export const getGrid = (str: string) =>
 export const trueMod = (n, m) => {
   return ((n % m) + m) % m;
 };
+
+export const sum = (nums: Array<number>): number =>
+  nums.reduce((acc, curr) => acc + curr, 0);
