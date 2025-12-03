@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "make-day": "node ./make-day.js",
     "2015": "ts-node ./src/2015/main.ts",
     "2016": "ts-node ./src/2016/main.ts",
     "2017": "ts-node ./src/2017/main.ts",
@@ -14,6 +15,7 @@
     "2022": "ts-node ./src/2022/main.ts",
     "2023": "ts-node ./src/2023/main.ts",
     "2024": "ts-node ./src/2024/main.ts",
+    "2025": "ts-node ./src/2025/main.ts",
     "ruby:2023": "ruby src/2023/main.rb",
     "ruby:2024": "ruby src/2024/main.rb",
     "jasmine": "node -r esm ./node_modules/jasmine/bin/jasmine",
